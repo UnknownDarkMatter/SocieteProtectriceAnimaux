@@ -1,0 +1,28 @@
+﻿@model SociétéProtectriceDesAnimaux.Entities.Animal
+
+<h2> Nouvel Animal</h2>
+<form method="post" name="form1" action="/Home/NouvelAnimal">
+    <table>
+        <tr>
+            <td>
+                Type d'animal
+            </td>
+            <td>
+                Nom
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <select asp-for="TypeAnimal" asp-items="Html.GetEnumSelectList(typeof (SociétéProtectriceDesAnimaux.Entities.TypeAnimal))"></select>
+                <div style="clear:both" />
+                @Html.ValidationMessageFor(m => m.TypeAnimal, "", new { @class = "errorMessage" })
+            </td>
+            <td>
+                <input asp-for="Name" />
+                <div style="clear:both" />
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "errorMessage" })
+            </td>
+        </tr>
+    </table>
+    <input type="submit" value="Enregistrer" />
+</form>

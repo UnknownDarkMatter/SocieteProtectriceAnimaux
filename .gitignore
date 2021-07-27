@@ -3,3 +3,7 @@
 ################################################################################
 
 /.vs/SociétéProtectriceDesAnimaux
+/SociétéProtectriceDesAnimaux/obj
+/SociétéProtectriceDesAnimaux.Business/obj
+/SociétéProtectriceDesAnimaux.Entities/obj
+/SociétéProtectriceDesAnimaux.Repository/obj

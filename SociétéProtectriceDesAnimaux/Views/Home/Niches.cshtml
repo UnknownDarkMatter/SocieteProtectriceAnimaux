@@ -1,0 +1,117 @@
+﻿@model List<SociétéProtectriceDesAnimaux.Models.NicheAnimalModel>
+
+
+<h2> Les Niches</h2>
+@{
+
+    int i = 0;
+    while (i < SociétéProtectriceDesAnimaux.Business.Constants.NombreNiche)
+    {
+        bool isNewRow = (i % 3) == 0;
+        if (isNewRow)
+        {
+            <div style="clear:both" />
+        }
+
+        SociétéProtectriceDesAnimaux.Models.NicheAnimalModel nicheAnimal = null;
+        string imgUrl = "";
+        string messageFaim = "";
+
+        int.TryParse(Model[i].Niche.Name.Substring(SociétéProtectriceDesAnimaux.Business.Constants.NicheNamePrefix.Length), out int numeroNiche);
+        if (i == numeroNiche && Model[i].Animal != null)
+        {
+            nicheAnimal = Model[i];
+            imgUrl = (nicheAnimal.Animal.TypeAnimal == SociétéProtectriceDesAnimaux.Entities.TypeAnimal.Chien
+               ? "chien.png"
+               : "chat.png");
+            messageFaim = (nicheAnimal.Animal.TypeAnimal == SociétéProtectriceDesAnimaux.Entities.TypeAnimal.Chien
+               ? "ouaf! ouaf! J'ai faim"
+               : "miaou! miaou ♥ J'ai faim");
+        } 
+
+        <div class="box">
+            <div style="height:100%;width:100%;display:flex;">
+                @if (nicheAnimal != null)
+                {
+                    <img src="../img/@imgUrl" class="animal" />
+                    <div style="display: grid;">
+                        <img src="~/img/bulle.png" class="bulle info-faim" />
+                        <span class="message info-faim">@(messageFaim)</span>
+                        <input type="button" class="btnSortirDeNiche" value="Sortir de la niche" />
+                        <input type="button" class="btnNourrir info-faim" value="Nourrir" />
+                        <span class="nom-animal">@(nicheAnimal.Animal.Name)</span>
+                    </div>
+                }
+            </div>
+        </div>
+
+        i++;
+    }
+}
+
+
+@section Styles{
+    <style>
+        .box {
+            border: black 1px solid;
+            width: 400px;
+            height: 200px;
+            float: left;
+        }
+
+        .animal {
+            height: 100px;
+            margin-top: auto;
+            margin-bottom: 20px;
+            margin-left: 20px;
+        }
+
+        .bulle {
+            height: 100px;
+            position: relative;
+            left: -50px;
+            top: 10px;
+            grid-row: 1;
+            grid-column: 1;
+        }
+
+        .message {
+            position: relative;
+            top: 45px;
+            left: -10px;
+            grid-row: 1;
+            grid-column: 1;
+        }
+
+        .nom-animal {
+            position: relative;
+            top: 0px;
+            left: 0px;
+            grid-row: 2;
+            grid-column: 1;
+       }
+
+      .btnSortirDeNiche {
+            position: relative;
+            top: 10px;
+            left: 0px;
+            width: 130px;
+            height: 30px;
+            grid-row: 3;
+            grid-column: 1;
+        }
+
+        .btnNourrir {
+            position: relative;
+            top: 10px;
+            left: 140px;
+            width: 100px;
+            height: 30px;
+            grid-row: 3;
+            grid-column: 1;
+        }
+        .non-visible {
+            display: none;
+        }
+    </style>
+}

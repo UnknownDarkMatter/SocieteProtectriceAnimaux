@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .errorMessage {
+            color: red;
+        }
+    </style>
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <h1>Société protectrice des animaux</h1>
+    <ul>
+        <li><a href="/Home/Index">Accueil</a></li>
+        <li><a href="/Home/NouvelAnimal">Nouvel animal</a></li>
+        <li><a href="/Home/Niches">Les Niches</a></li>
+    </ul>
+
+    @RenderBody()
+
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
