@@ -34,6 +34,34 @@ namespace SociétéProtectriceDesAnimaux.Business
             _animalRepository.Create(newNicheAnimal);
         }
 
+        public void SupprimerAnimal(int animalId)
+        {
+            var listeNicheAnimals = _animalRepository.GetNicheAnimals();
+            var nicheAnimal = listeNicheAnimals.FirstOrDefault(m => m.AnimalId == animalId);
+            if(nicheAnimal!= null)
+            {
+                _animalRepository.Delete(nicheAnimal);
+                
+            }
+            var listeAnimals = _animalRepository.GetAnimals();
+            var monAnimal = listeAnimals.FirstOrDefault(m => m.Id == animalId);
+            if(monAnimal != null)
+            {
+                _animalRepository.Delete(monAnimal);
+            }
+        }
+
+        public void NourrirAnimal(int animalId)
+        {
+            var listeAnimals = _animalRepository.GetAnimals();
+            var monAnimal = listeAnimals.FirstOrDefault(m => m.Id == animalId);
+            if (monAnimal != null)
+            {
+                monAnimal.LastFoodingTime = DateTime.Now;
+                _animalRepository.Update(monAnimal);
+            }
+        }
+
         public List<Animal> GetAllAnimals()
         {
             return _animalRepository.GetAnimals();

@@ -48,6 +48,21 @@ namespace SociétéProtectriceDesAnimaux.Controllers
             return View("Index");
         }
 
+        [HttpDelete]
+        public IActionResult DeleteAnimal(int animalId)
+        {
+            _animalService.SupprimerAnimal(animalId);
+            return Json(new { IsError=false, Message="OK"});
+        }
+
+        [HttpPut]
+        public IActionResult NourrirAnimal(int animalId)
+        {
+            _animalService.NourrirAnimal(animalId);
+            return Json(new { IsError = false, Message = "OK" });
+
+        }
+
         public IActionResult Niches()
         {
             var animals = _animalService.GetAllAnimals();

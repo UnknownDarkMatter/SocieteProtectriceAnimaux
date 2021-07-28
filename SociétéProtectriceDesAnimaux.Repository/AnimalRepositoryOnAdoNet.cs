@@ -57,7 +57,7 @@ namespace SociétéProtectriceDesAnimaux.Repository
             DataTable dataTable = new DataTable();
             using (var connection = new SqlConnection(_connectionString))
             {
-                string sql = "SELECT Id, Name, Type FROM Animal";
+                string sql = "SELECT Id, Name, Type, LastFoodingTime FROM Animal";
                 var cmd = new SqlCommand(sql, connection);
                 var sda = new SqlDataAdapter(cmd);
                 sda.Fill(dataTable);
@@ -72,10 +72,35 @@ namespace SociétéProtectriceDesAnimaux.Repository
                     animal.Id = id;
                     animal.Name = dr["Name"].ToString();
                     animal.TypeAnimal = (TypeAnimal)typeAnimal;
+                    if(dr["LastFoodingTime"] != DBNull.Value)
+                    {
+                        animal.LastFoodingTime = (DateTime) dr["LastFoodingTime"];
+                    }
                     animals.Add(animal);
                 }
             }
             return animals;
+        }
+
+        public void Update(Animal animal)
+        {
+            using (var con = new SqlConnection(_connectionString))
+            {
+                con.Open();
+                var paramName = new SqlParameter("@name", animal.Name);
+                var paramType = new SqlParameter("@type", (int)animal.TypeAnimal);
+                var paramLastFoodingTime = new SqlParameter("@lastFoodingTime", animal.LastFoodingTime);
+                var paramId = new SqlParameter("@id", animal.Id);
+                string sql = "UPDATE Animal SET Name = @name, Type = @type, LastFoodingTime = @lastFoodingTime WHERE Id = @id";
+                var cmd = new SqlCommand(sql, con);
+                cmd.Parameters.Add(paramId);
+                cmd.Parameters.Add(paramName);
+                cmd.Parameters.Add(paramType);
+                cmd.Parameters.Add(paramLastFoodingTime);
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+
         }
 
         // Niche: CREATE, DELETE and GET.
@@ -154,7 +179,7 @@ namespace SociétéProtectriceDesAnimaux.Repository
                 var paramIdAnimal = new SqlParameter("@IdAnimal", nicheAnimal.AnimalId);
                 var paramIdNiche = new SqlParameter("@IdNiche", nicheAnimal.NicheId);
               
-                string sql = "DELETE NicheAnimal WHERE IdAnimal = @AnimalId AND IdNiche = @IdNiche";
+                string sql = "DELETE NicheAnimal WHERE IdAnimal = @IdAnimal AND IdNiche = @IdNiche";
                 var cmd = new SqlCommand(sql, con);
                 cmd.Parameters.Add(paramIdAnimal);
                 cmd.Parameters.Add(paramIdNiche);

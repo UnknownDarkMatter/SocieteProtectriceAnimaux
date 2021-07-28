@@ -8,6 +8,8 @@ namespace SociétéProtectriceDesAnimaux.Repository
     {
         int Create(Animal animal);
         void Delete(Animal animal);
+
+        void Update(Animal animal);
         List<Animal> GetAnimals();
 
         int Create(Niche niche);

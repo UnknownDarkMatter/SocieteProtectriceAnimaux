@@ -15,5 +15,7 @@ namespace SociétéProtectriceDesAnimaux.Entities
 
         [Required(ErrorMessage = "Veuillez renseigner le nom de l'animal")]
         public string Name { get; set; }
+
+        public DateTime? LastFoodingTime { get; set; }
     }
 }
