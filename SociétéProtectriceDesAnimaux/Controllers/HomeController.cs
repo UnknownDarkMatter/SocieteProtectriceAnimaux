@@ -63,6 +63,13 @@ namespace SociétéProtectriceDesAnimaux.Controllers
 
         }
 
+        public IActionResult GetHungryAnimalStatus()
+        {
+
+            var model = _animalService.GetAllAnimals().Select(m => new { IsHungry = _animalService.IsHungy(m), AnimalId = m.Id }).ToArray();
+            return Json(model);
+        }
+
         public IActionResult Niches()
         {
             var animals = _animalService.GetAllAnimals();
@@ -74,30 +81,7 @@ namespace SociétéProtectriceDesAnimaux.Controllers
                     Niche = niche,
                     Animal = animals.FirstOrDefault( animal => nicheAnimals.Any(na => na.AnimalId == animal.Id && na.NicheId == niche.Id) )
                 }).ToList();
-
-            //foreach (var nicheAnimal in nicheAnimals)
-            //{
-            //    var newModel = new NicheAnimalModel();
-            //    foreach(var niche in niches)
-            //    {
-            //        if(nicheAnimal.NicheId == niche.Id)
-            //        {
-            //            newModel.Niche = niche;
-            //            break;
-            //        }
-            //    }
-            //    foreach(var animal in animals)
-            //    {
-            //        if (nicheAnimal.AnimalId == animal.Id)
-            //        {
-            //            newModel.Animal = animal;
-            //            break;
-            //        }
-                   
-            //    }
-            //    model.Add(newModel);
-            //}
-            
+          
             return View(model);
         }
     }
