@@ -8,5 +8,6 @@ namespace SociétéProtectriceDesAnimaux.Business
     {
         public const int NombreNiche = 6;
         public const string NicheNamePrefix = "Niche";
+        public const int NombreDeSeondes = 10;
     }
 }

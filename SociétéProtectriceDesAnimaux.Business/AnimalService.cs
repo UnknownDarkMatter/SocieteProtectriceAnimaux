@@ -51,6 +51,17 @@ namespace SociétéProtectriceDesAnimaux.Business
             }
         }
 
+        public bool IsHungy(Animal animal)
+        {
+            var monAnimal = _animalRepository.GetAnimals().FirstOrDefault(m => m.Id == animal.Id);
+             if(monAnimal.LastFoodingTime == null)
+            {
+                return true;
+            }
+            var timeSpan = DateTime.Now.Subtract(monAnimal.LastFoodingTime.Value);
+            return timeSpan.TotalSeconds > Constants.NombreDeSeondes;
+        }
+
         public void NourrirAnimal(int animalId)
         {
             var listeAnimals = _animalRepository.GetAnimals();

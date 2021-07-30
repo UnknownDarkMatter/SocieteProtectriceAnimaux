@@ -34,12 +34,12 @@
                 @if (nicheAnimal != null)
                 {
                     <img src="../img/@imgUrl" class="animal" />
-                    <div style="display: grid;">
-                        <img src="~/img/bulle.png" class="bulle info-faim" />
-                        <span class="message info-faim">@(messageFaim)</span>
+                    <div style="display: grid;" animal-id="@nicheAnimal.Animal.Id">
+                        <img src="~/img/bulle.png" class="bulle" />
+                        <span class="message-faim"></span>
                         <input type="button" class="btnSortirDeNiche" value="Sortir de la niche"
                                onclick="retireAnimal(@(nicheAnimal.Animal.Id))" />
-                        <input type="button" class="btnNourrir info-faim" value="Nourrir"
+                        <input type="button" class="btnNourrir" value="Nourrir"
                                onclick="nourirAnimal(@(nicheAnimal.Animal.Id))" />
                         <span class="nom-animal">@(nicheAnimal.Animal.Name)</span>
                     </div>
@@ -78,6 +78,34 @@
             });
         }
 
+        function updateFoodingStatus(isHungry, animalId) {
+            var messageBlock = $('[animal-id = "' + animalId + '"]');
+            if (isHungry) {
+                $('.message-faim', messageBlock).html('J\'ai faim');
+            }
+            else
+            {
+                $('.message-faim', messageBlock).html('J\'ai bien mangé, merci ☺');
+            }
+        }
+        function hundgryAnimalPooling() {
+            $.ajax({
+                url: 'GetHungryAnimalStatus',
+                cache: false,
+                async: false,
+                type: 'GET',
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        var isHungry = data[i].isHungry;
+                        var animalId = data[i].animalId;
+                        updateFoodingStatus(isHungry, animalId);
+                    }
+                }
+            });
+
+            setTimeout(hundgryAnimalPooling, 1000);
+        }
+        hundgryAnimalPooling();
     </script>
 }
 
@@ -107,7 +135,7 @@
             grid-column: 1;
         }
 
-        .message {
+        .message-faim {
             position: relative;
             top: 45px;
             left: -10px;
@@ -141,10 +169,6 @@
             height: 30px;
             grid-row: 3;
             grid-column: 1;
-        }
-
-        .non-visible {
-            display: none;
         }
     </style>
 }
