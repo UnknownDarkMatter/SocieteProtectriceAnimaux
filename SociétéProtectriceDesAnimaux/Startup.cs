@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SociétéProtectriceDesAnimaux.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,9 @@ namespace SociétéProtectriceDesAnimaux
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IConfiguration>( m => { return Configuration; });
+
+            string connectionString = Microsoft.Extensions.Configuration.ConfigurationExtensions.GetConnectionString(Configuration, "MyConnection");
+            services.AddScoped<IAnimalRepository>( m => new AnimalRepositoryOnAdoNet(connectionString));
 
             services.AddControllersWithViews();
 

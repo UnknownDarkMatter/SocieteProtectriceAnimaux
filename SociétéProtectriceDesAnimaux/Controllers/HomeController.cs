@@ -18,10 +18,10 @@ namespace SociétéProtectriceDesAnimaux.Controllers
     {
         private AnimalService _animalService;
 
-        public HomeController(IConfiguration configuration)
+        public HomeController(IConfiguration configuration, IAnimalRepository animalRepository)
         {
-            string connectionString = Microsoft.Extensions.Configuration.ConfigurationExtensions.GetConnectionString(configuration, "MyConnection");
-            var animalRepository = new AnimalRepositoryOnAdoNet(connectionString);
+            //string connectionString = Microsoft.Extensions.Configuration.ConfigurationExtensions.GetConnectionString(configuration, "MyConnection");
+            //var animalRepository = new AnimalRepositoryOnAdoNet(connectionString);
             _animalService = new AnimalService(animalRepository);
         }
 
